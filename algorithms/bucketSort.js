@@ -14,7 +14,7 @@ export default function bucketSort(array, bucketSize) {
     }
 
     const bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;
-    const buckets = new Array(bucketCount);
+    const buckets = new Array(bucketCount).fill().map(() => []);
     
     for (let i = 0; i < buckets.length; i++) {
         buckets[i] = [];

@@ -7,10 +7,8 @@ import "dotenv/config"
 
 async function main() {
     const array = generateRandomArray(process.env.ARRAY_SIZE);
-    await measureExecutionTime(bucketSort, array, 6);
     await measureExecutionTime(parallelBucketSort, array, 6);
-
-
+    await measureExecutionTime(bucketSort, array, 6);
 }
 
 main()

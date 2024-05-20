@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "child_process": "^1.0.2",
     "dotenv": "^16.4.5",
     "worker-threads": "^1.0.0"
   }
