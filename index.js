@@ -9,8 +9,8 @@ async function main() {
     const arraySize = parseInt(process.env.ARRAY_SIZE, 10);
     const array = generateRandomArray(arraySize);
 
-    const sortedSequential = await measureExecutionTime(bucketSort, array, 8);
-    const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 8);
+    const sortedSequential = await measureExecutionTime(bucketSort, array, 6);
+    const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 6);
 
     console.log(`Is sequential sorted: ${isSorted(sortedSequential)}`);
     console.log(`Is parallel sorted: ${isSorted(sortedParallel)}`);

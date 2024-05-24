@@ -17,13 +17,14 @@ export default function bucketSort(array, num_buckets) {
     }
 
     const interval = (maxValue - minValue + 1) / num_buckets;
-    console.log(interval);
-    const buckets = new Array(num_buckets).fill().map(() => []);
+    const buckets = Array.from({ length: num_buckets }, () => []);
 
     for (let i = 0; i < array.length; i++) {
         const bucket_index = Math.floor((array[i] - minValue) / interval);
-        buckets[bucket_index].push(array[i]);
+        const index = bucket_index === num_buckets ? num_buckets - 1 : bucket_index;
+        buckets[index].push(array[i]);
     }
+
     const sortedArray = [];
     for (let i = 0; i < num_buckets; i++) {
         bubbleSort(buckets[i]);

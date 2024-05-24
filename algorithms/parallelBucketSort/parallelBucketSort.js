@@ -19,10 +19,13 @@ export default function parallelBucketSort(array, num_buckets) {
         }
 
         const interval = (maxValue - minValue + 1) / num_buckets;
-        const buckets = new Array(num_buckets).fill().map(() => []);
+        const buckets = Array.from({ length: num_buckets }, () => []);
 
         for (let i = 0; i < array.length; i++) {
-            const bucket_index = Math.floor((array[i] - minValue) / interval);
+            let bucket_index = Math.floor((array[i] - minValue) / interval);
+            if (bucket_index === num_buckets) {
+                bucket_index--;
+            }
             buckets[bucket_index].push(array[i]);
         }
 
@@ -56,8 +59,10 @@ export default function parallelBucketSort(array, num_buckets) {
         Promise.all(promises)
             .then((sortedBuckets) => {
                 const sortedArray = [];
-                sortedBuckets.forEach((bucket) => {
-                    sortedArray.push(...bucket);
+                sortedBuckets.forEach((sortedChunk) => {
+                    sortedChunk.forEach((bucket) => {
+                        sortedArray.push(...bucket);
+                    });
                 });
                 resolve(sortedArray);
             })
