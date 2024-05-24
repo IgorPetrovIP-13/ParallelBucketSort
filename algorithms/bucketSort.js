@@ -1,10 +1,13 @@
-export default function bucketSort(array, bucketSize) {
+import bubbleSort from "./bubbleSort.js";
+
+export default function bucketSort(array, num_buckets) {
     if (array.length === 0) {
         return array;
     }
 
     let minValue = array[0];
     let maxValue = array[0];
+
     for (let i = 1; i < array.length; i++) {
         if (array[i] < minValue) {
             minValue = array[i];
@@ -13,23 +16,18 @@ export default function bucketSort(array, bucketSize) {
         }
     }
 
-    const bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;
-    const buckets = new Array(bucketCount).fill().map(() => []);
-    
-    for (let i = 0; i < buckets.length; i++) {
-        buckets[i] = [];
+    const interval = (maxValue - minValue + 1) / num_buckets;
+    console.log(interval);
+    const buckets = new Array(num_buckets).fill().map(() => []);
+
+    for (let i = 0; i < array.length; i++) {
+        const bucket_index = Math.floor((array[i] - minValue) / interval);
+        buckets[bucket_index].push(array[i]);
     }
-
-    array.forEach((currentVal) => {
-        const bucketIndex = Math.floor((currentVal - minValue) / bucketSize);
-        buckets[bucketIndex].push(currentVal);
-    });
-
     const sortedArray = [];
-    for (let i = 0; i < buckets.length; i++) {
-        buckets[i].sort((a, b) => a - b);
+    for (let i = 0; i < num_buckets; i++) {
+        bubbleSort(buckets[i]);
         sortedArray.push(...buckets[i]);
     }
-
     return sortedArray;
 }

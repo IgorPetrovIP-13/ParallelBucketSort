@@ -1,9 +1,10 @@
+import { performance } from 'perf_hooks';
+
 export default async function measureExecutionTime(func, ...args) {
-    const start = process.hrtime.bigint();
+    const start = performance.now();
     const result = await func(...args);
-    const end = process.hrtime.bigint();
-    const duration = end - start;
-    const durationInSeconds = Number(duration) / 1e9;
-    console.log(`Function ${func.name} executed in ${durationInSeconds} seconds `);
+    const end = performance.now();
+    console.log(`Function ${func.name} executed in ${Math.ceil(end - start)} milliseconds `);
     return result;
 }
+

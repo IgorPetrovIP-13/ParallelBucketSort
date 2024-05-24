@@ -6,9 +6,14 @@ import isSorted from "./utils/isSorted.js";
 import "dotenv/config"
 
 async function main() {
-    const array = generateRandomArray(process.env.ARRAY_SIZE);
-    await measureExecutionTime(parallelBucketSort, array, 6);
-    await measureExecutionTime(bucketSort, array, 6);
+    const arraySize = parseInt(process.env.ARRAY_SIZE, 10);
+    const array = generateRandomArray(arraySize);
+
+    const sortedSequential = await measureExecutionTime(bucketSort, array, 8);
+    const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 8);
+
+    console.log(`Is sequential sorted: ${isSorted(sortedSequential)}`);
+    console.log(`Is parallel sorted: ${isSorted(sortedParallel)}`);
 }
 
-main()
+main().catch(console.error);
