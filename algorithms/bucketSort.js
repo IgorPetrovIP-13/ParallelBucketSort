@@ -9,26 +9,28 @@ export default function bucketSort(array, num_buckets) {
     let maxValue = array[0];
 
     for (let i = 1; i < array.length; i++) {
-        if (array[i] < minValue) {
+        if (array[i].accountBalance < minValue.accountBalance) {
             minValue = array[i];
-        } else if (array[i] > maxValue) {
+        } else if (array[i].accountBalance > maxValue.accountBalance) {
             maxValue = array[i];
         }
     }
 
-    const interval = (maxValue - minValue + 1) / num_buckets;
+    const interval = (maxValue.accountBalance - minValue.accountBalance + 1) / num_buckets;
     const buckets = Array.from({ length: num_buckets }, () => []);
 
     for (let i = 0; i < array.length; i++) {
-        const bucket_index = Math.floor((array[i] - minValue) / interval);
+        const bucket_index = Math.floor((array[i].accountBalance - minValue.accountBalance) / interval);
         const index = bucket_index === num_buckets ? num_buckets - 1 : bucket_index;
         buckets[index].push(array[i]);
     }
 
     const sortedArray = [];
-    for (let i = 0; i < num_buckets; i++) {
-        bubbleSort(buckets[i]);
-        sortedArray.push(...buckets[i]);
-    }
+
+    buckets.forEach(bucket => {
+        bubbleSort(bucket);
+        sortedArray.push(...bucket);
+    });
+
     return sortedArray;
 }

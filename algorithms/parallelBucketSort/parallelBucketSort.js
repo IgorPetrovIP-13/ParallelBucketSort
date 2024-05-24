@@ -10,36 +10,40 @@ export default function parallelBucketSort(array, num_buckets) {
 
         let minValue = array[0];
         let maxValue = array[0];
+    
         for (let i = 1; i < array.length; i++) {
-            if (array[i] < minValue) {
+            if (array[i].accountBalance < minValue.accountBalance) {
                 minValue = array[i];
-            } else if (array[i] > maxValue) {
+            } else if (array[i].accountBalance > maxValue.accountBalance) {
                 maxValue = array[i];
             }
         }
-
-        const interval = (maxValue - minValue + 1) / num_buckets;
+    
+        const interval = (maxValue.accountBalance - minValue.accountBalance + 1) / num_buckets;
         const buckets = Array.from({ length: num_buckets }, () => []);
-
+    
         for (let i = 0; i < array.length; i++) {
-            let bucket_index = Math.floor((array[i] - minValue) / interval);
-            if (bucket_index === num_buckets) {
-                bucket_index--;
-            }
-            buckets[bucket_index].push(array[i]);
+            const bucket_index = Math.floor((array[i].accountBalance - minValue.accountBalance) / interval);
+            const index = bucket_index === num_buckets ? num_buckets - 1 : bucket_index;
+            buckets[index].push(array[i]);
         }
-
+    
         const cpuCount = os.cpus().length;
         const workers = Math.min(cpuCount, num_buckets);
         const promises = [];
 
-        const bucketsPerWorker = Math.ceil(num_buckets / workers);
+        const bucketsPerWorker = Math.floor(num_buckets / workers);
+        const extraBuckets = num_buckets % workers;
+
+        let offset = 0;
         for (let i = 0; i < workers; i++) {
+
+            const end = offset + bucketsPerWorker + (i < extraBuckets ? 1 : 0);
+            const workerBuckets = buckets.slice(offset, end);
+            offset = end;
+
             promises.push(
                 new Promise((resolve, reject) => {
-                    const start = i * bucketsPerWorker;
-                    const end = Math.min(start + bucketsPerWorker, num_buckets);
-                    const workerBuckets = buckets.slice(start, end);
 
                     const worker = new Worker(new URL("./worker.js", import.meta.url), {
                         workerData: workerBuckets,
