@@ -14,6 +14,7 @@ async function main() {
 
     console.log(`Is sequential sorted: ${isSorted(sortedSequential)}`);
     console.log(`Is parallel sorted: ${isSorted(sortedParallel)}`);
+    console.log(`Are equal: ${JSON.stringify(sortedSequential) === JSON.stringify(sortedParallel)}`)
 }
 
 main().catch(console.error);
