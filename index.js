@@ -9,7 +9,8 @@ async function warmUp() {
     const arraySize = 1000;
     const array = generateRandomArray(arraySize);
     for (let i = 0; i < 10; i++) {
-        await parallelBucketSort(array, 6);
+        await bucketSort(array, 5);
+        // await parallelBucketSort(array, 5);
     }
 }
 
@@ -19,12 +20,12 @@ async function main() {
 
     await warmUp();
 
-    const sortedSequential = await measureExecutionTime(bucketSort, array, 6);
-    const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 6);
+    const sortedSequential = await measureExecutionTime(bucketSort, array, 10);
+    // const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 10);
 
     console.log(`Is sequential sorted: ${isSorted(sortedSequential)}`);
-    console.log(`Is parallel sorted: ${isSorted(sortedParallel)}`);
-    console.log(`Are equal: ${JSON.stringify(sortedSequential) === JSON.stringify(sortedParallel)}`)
+    // console.log(`Is parallel sorted: ${isSorted(sortedParallel)}`);
+    // console.log(`Are equal: ${JSON.stringify(sortedSequential) === JSON.stringify(sortedParallel)}`)
 }
 
 main().catch(console.error);
