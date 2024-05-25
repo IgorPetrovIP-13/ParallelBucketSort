@@ -20,11 +20,11 @@ async function main() {
 
     await warmUp();
 
-    const sortedSequential = await measureExecutionTime(bucketSort, array, 10);
-    // const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 10);
+    // const sortedSequential = await measureExecutionTime(bucketSort, array, 10);
+    const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 10);
 
-    console.log(`Is sequential sorted: ${isSorted(sortedSequential)}`);
-    // console.log(`Is parallel sorted: ${isSorted(sortedParallel)}`);
+    // console.log(`Is sequential sorted: ${isSorted(sortedSequential)}`);
+    console.log(`Is parallel sorted: ${isSorted(sortedParallel)}`);
     // console.log(`Are equal: ${JSON.stringify(sortedSequential) === JSON.stringify(sortedParallel)}`)
 }
 
