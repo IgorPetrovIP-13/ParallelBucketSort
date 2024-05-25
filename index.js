@@ -5,9 +5,19 @@ import generateRandomArray from "./utils/generateArray.js";
 import isSorted from "./utils/isSorted.js";
 import "dotenv/config"
 
+async function warmUp() {
+    const arraySize = 1000;
+    const array = generateRandomArray(arraySize);
+    for (let i = 0; i < 10; i++) {
+        await parallelBucketSort(array, 6);
+    }
+}
+
 async function main() {
     const arraySize = parseInt(process.env.ARRAY_SIZE, 10);
     const array = generateRandomArray(arraySize);
+
+    await warmUp();
 
     const sortedSequential = await measureExecutionTime(bucketSort, array, 6);
     const sortedParallel = await measureExecutionTime(parallelBucketSort, array, 6);
