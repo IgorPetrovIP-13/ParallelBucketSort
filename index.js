@@ -6,7 +6,7 @@ import isSorted from "./utils/isSorted.js";
 import "dotenv/config"
 
 async function warmUp() {
-    const arraySize = 1000;
+    const arraySize = 5000;
     const array = generateRandomArray(arraySize);
     for (let i = 0; i < 10; i++) {
         await bucketSort(array, 5);
